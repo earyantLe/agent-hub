@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agent-hub.dev/skill-schema.json",
+  "title": "Agent Skill Descriptor",
+  "description": "Standard format for describing an Agent-accessible skill/service",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["name", "version", "description", "capabilities"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique skill identifier (kebab-case)",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "maxLength": 64
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description",
+      "maxLength": 500
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "url": { "type": "string", "format": "uri" }
+      },
+      "required": ["name"]
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "List of exposed capabilities",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "inputSchema"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "maxLength": 64
+          },
+          "description": { "type": "string", "maxLength": 500 },
+          "inputSchema": {
+            "$ref": "#/definitions/jsonSchema"
+          },
+          "outputSchema": {
+            "$ref": "#/definitions/jsonSchema"
+          }
+        }
+      }
+    },
+    "auth": {
+      "type": "object",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "none" }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "apiKey" },
+            "in": { "type": "string", "enum": ["header", "query"] },
+            "name": { "type": "string" }
+          },
+          "required": ["type", "in", "name"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "const": "oauth2" },
+            "authorizationUrl": { "type": "string", "format": "uri" },
+            "tokenUrl": { "type": "string", "format": "uri" },
+            "scopes": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          },
+          "required": ["type", "authorizationUrl", "tokenUrl"]
+        }
+      ]
+    },
+    "endpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["method", "path"],
+        "properties": {
+          "method": { "type": "string", "enum": ["GET", "POST", "PUT", "DELETE", "PATCH"] },
+          "path": { "type": "string" },
+          "capability": { "type": "string" }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "website": { "type": "string", "format": "uri" },
+        "repository": { "type": "string", "format": "uri" },
+        "license": { "type": "string" }
+      }
+    }
+  },
+  "definitions": {
+    "jsonSchema": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "properties": { "type": "object" },
+        "required": { "type": "array", "items": { "type": "string" } },
+        "items": { "$ref": "#/definitions/jsonSchema" }
+      }
+    }
+  }
+}
