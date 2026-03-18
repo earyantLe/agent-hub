@@ -8,3 +8,12 @@ coverage/
 __pycache__/
 *.pyc
 .DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
