@@ -3,7 +3,6 @@
   "$id": "https://agent-hub.dev/skill-schema.json",
   "title": "Agent Skill Descriptor",
   "description": "Standard format for describing an Agent-accessible skill/service",
-  "version": "1.0.0",
   "type": "object",
   "required": ["name", "version", "description", "capabilities"],
   "properties": {

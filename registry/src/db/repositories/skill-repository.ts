@@ -79,7 +79,7 @@ export class SkillRepository {
     await this.db
       .updateTable('skills')
       .set({
-        downloadCount: sql`download_count + 1`,
+        downloadCount: sql`"downloadCount" + 1`,
         updatedAt: new Date()
       })
       .where('id', '=', id)
