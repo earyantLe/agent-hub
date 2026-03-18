@@ -1,6 +1,8 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import { pino } from 'pino';
+import { createDatabase, migrate } from './db/database.js';
+import { skillsRoutes } from './routes/skills.js';
 
 const logger = pino({
   level: process.env.LOG_LEVEL || 'info',
@@ -22,6 +24,16 @@ export async function createServer() {
     origin: true,
     credentials: true
   });
+
+  // 初始化数据库
+  const db = createDatabase();
+  server.decorate('db', db);
+
+  // 运行迁移
+  await migrate(db);
+
+  // 注册路由
+  await server.register(skillsRoutes, { prefix: '/api' });
 
   server.get('/health', async () => ({ status: 'ok', timestamp: new Date().toISOString() }));
 
