@@ -1,11 +1,13 @@
-import Ajv from 'ajv';
+import { Ajv } from 'ajv';
 import addFormats from 'ajv-formats';
-import skillSchema from './skill-schema.json' assert { type: 'json' };
+import type { ValidateFunction } from 'ajv';
+import skillSchema from './skill-schema.json' with { type: 'json' };
 
 const ajv = new Ajv({ allErrors: true });
+// @ts-ignore - ajv-formats is a plugin that can be called with ajv instance
 addFormats(ajv);
 
-let validate: ReturnType<typeof ajv.compile>;
+let validate: ValidateFunction;
 
 export function getValidator() {
   if (!validate) {
@@ -34,11 +36,9 @@ export function validateSkillDescriptor(descriptor: unknown): ValidationResult {
 
   return {
     valid: false,
-    errors: (validator.errors || []).map(err => ({
+    errors: (validator.errors || []).map((err: any) => ({
       instancePath: err.instancePath,
       message: err.message
     }))
   };
 }
-
-export type { skillSchema as SkillSchema };

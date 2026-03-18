@@ -1,6 +1,6 @@
 import { createServer } from './server.js';
 
-const port = process.env.PORT || 3000;
+const port = parseInt(process.env.PORT || '3000', 10);
 const host = process.env.HOST || '0.0.0.0';
 
 const server = await createServer();

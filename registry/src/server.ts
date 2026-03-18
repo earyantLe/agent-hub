@@ -3,6 +3,14 @@ import cors from '@fastify/cors';
 import { pino } from 'pino';
 import { createDatabase, migrate } from './db/database.js';
 import { skillsRoutes } from './routes/skills.js';
+import type { Kysely } from 'kysely';
+import type { Database } from './db/schema.js';
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    db: Kysely<Database>;
+  }
+}
 
 const logger = pino({
   level: process.env.LOG_LEVEL || 'info',
@@ -13,7 +21,7 @@ const logger = pino({
       ignore: 'pid,hostname'
     }
   }
-});
+}) as any;
 
 export async function createServer() {
   const server = Fastify({

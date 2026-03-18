@@ -25,7 +25,7 @@ export class AgentHubClient {
   }
 
   private async request<T>(endpoint: string, options?: RequestInit): Promise<T> {
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...(this.apiKey ? { 'Authorization': `Bearer ${this.apiKey}` } : {})
     };
@@ -36,11 +36,11 @@ export class AgentHubClient {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: 'Request failed' }));
+      const error: any = await response.json().catch(() => ({ error: 'Request failed' }));
       throw new Error(error.error || `HTTP ${response.status}`);
     }
 
-    return response.json();
+    return response.json() as Promise<T>;
   }
 
   async listSkills(query?: string, limit?: number): Promise<SkillDescriptor[]> {
@@ -48,16 +48,16 @@ export class AgentHubClient {
     if (query) params.set('q', query);
     if (limit) params.set('limit', limit.toString());
 
-    const response = await this.request(`/api/skills?${params}`);
+    const response = await this.request<any>(`/api/skills?${params}`);
     return (response as { skills: SkillDescriptor[] }).skills;
   }
 
   async getSkill(name: string): Promise<SkillDescriptor> {
-    return this.request(`/api/skills/${name}`);
+    return this.request<SkillDescriptor>(`/api/skills/${name}`);
   }
 
   async submitSkill(descriptor: SkillDescriptor): Promise<{ id: number; status: string; message: string }> {
-    return this.request('/api/skills', {
+    return this.request<{ id: number; status: string; message: string }>('/api/skills', {
       method: 'POST',
       body: JSON.stringify({ descriptor })
     });

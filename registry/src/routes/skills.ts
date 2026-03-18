@@ -1,15 +1,11 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { validateSkillDescriptor } from '@agent-hub/protocol';
 import { SkillRepository } from '../db/repositories/skill-repository.js';
-import type { Database, SkillTable } from '../db/schema.js';
+import type { Database } from '../db/schema.js';
 import type { Kysely } from 'kysely';
 
 interface SubmitSkillBody {
   descriptor: unknown;
-}
-
-interface SkillParams {
-  name: string;
 }
 
 interface SkillQuery {
@@ -35,8 +31,8 @@ export async function skillsRoutes(server: FastifyInstance) {
     return { skills, total: skills.length };
   });
 
-  server.get('/skills/:name', async (request: FastifyRequest<SkillParams>, reply: FastifyReply) => {
-    const { name } = request.params;
+  server.get('/skills/:name', async (request: FastifyRequest, reply: FastifyReply) => {
+    const { name } = request.params as { name: string };
     const skill = await skillRepo.findByName(name);
 
     if (!skill) {
