@@ -1,0 +1,59 @@
+{
+  "name": "github-skill",
+  "version": "1.0.0",
+  "description": "GitHub API 封装 - 仓库、Issue、PR 管理",
+  "author": {
+    "name": "Agent Hub Team"
+  },
+  "capabilities": [
+    {
+      "name": "search_repositories",
+      "description": "搜索 GitHub 仓库",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "搜索查询" },
+          "sort": { "type": "string", "enum": ["stars", "forks", "updated"], "default": "stars" },
+          "limit": { "type": "integer", "default": 10 }
+        },
+        "required": ["query"]
+      },
+      "outputSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "fullName": { "type": "string" },
+            "description": { "type": "string" },
+            "stars": { "type": "integer" },
+            "url": { "type": "string" }
+          }
+        }
+      }
+    },
+    {
+      "name": "create_issue",
+      "description": "创建 Issue",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "owner": { "type": "string" },
+          "repo": { "type": "string" },
+          "title": { "type": "string" },
+          "body": { "type": "string" },
+          "labels": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["owner", "repo", "title"]
+      }
+    }
+  ],
+  "auth": {
+    "type": "apiKey",
+    "in": "header",
+    "name": "Authorization"
+  },
+  "metadata": {
+    "tags": ["developer-tools", "git", "collaboration"],
+    "website": "https://github.com"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "name": "zhihu-skill",
+  "version": "1.0.0",
+  "description": "知乎内容搜索和问答 API",
+  "author": {
+    "name": "Agent Hub Team"
+  },
+  "capabilities": [
+    {
+      "name": "search_questions",
+      "description": "搜索知乎问题",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string", "description": "搜索关键词" },
+          "limit": { "type": "integer", "default": 10, "minimum": 1, "maximum": 50 }
+        },
+        "required": ["query"]
+      },
+      "outputSchema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "title": { "type": "string" },
+            "url": { "type": "string" },
+            "answerCount": { "type": "integer" }
+          }
+        }
+      }
+    },
+    {
+      "name": "get_question_details",
+      "description": "获取问题详情和回答",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "questionId": { "type": "string" },
+          "limit": { "type": "integer", "default": 5 }
+        },
+        "required": ["questionId"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "question": { "type": "object" },
+          "answers": { "type": "array" }
+        }
+      }
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "authorizationUrl": "https://www.zhihu.com/oauth/authorize",
+    "tokenUrl": "https://www.zhihu.com/oauth/token",
+    "scopes": {
+      "read": "读取内容",
+      "write": "发布内容"
+    }
+  },
+  "metadata": {
+    "tags": ["social", "qa", "chinese"],
+    "website": "https://www.zhihu.com"
+  }
+}
