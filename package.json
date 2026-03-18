@@ -1,0 +1,22 @@
+{
+  "name": "agent-hub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Make the web agent-ready",
+  "scripts": {
+    "dev": "pnpm --filter registry dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
