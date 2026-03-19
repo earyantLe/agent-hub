@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Hub - Make the web agent-ready</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    header {
+      text-align: center;
+      color: white;
+      margin-bottom: 60px;
+    }
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    header p {
+      font-size: 1.25rem;
+      opacity: 0.9;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 50px rgba(0,0,0,0.25);
+    }
+    .card h2 {
+      color: #667eea;
+      margin-bottom: 12px;
+      font-size: 1.5rem;
+    }
+    .card p {
+      color: #666;
+      margin-bottom: 16px;
+    }
+    .card a {
+      color: #764ba2;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .card a:hover {
+      text-decoration: underline;
+    }
+    .quick-start {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      margin-bottom: 40px;
+    }
+    .quick-start h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+    }
+    .quick-start pre {
+      background: #f5f5f5;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.9rem;
+    }
+    .quick-start code {
+      color: #333;
+    }
+    .api-section {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .api-section h2 {
+      color: #667eea;
+      margin-bottom: 20px;
+    }
+    .endpoint {
+      background: #f8f9fa;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      border-left: 4px solid #667eea;
+    }
+    .endpoint code {
+      font-family: 'Monaco', 'Consolas', monospace;
+      color: #333;
+    }
+    .method {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .method.get { background: #28a745; color: white; }
+    .method.post { background: #007bff; color: white; }
+    .method.put { background: #ffc107; color: #333; }
+    .method.delete { background: #dc3545; color: white; }
+    footer {
+      text-align: center;
+      color: white;
+      margin-top: 60px;
+      padding: 20px;
+      opacity: 0.8;
+    }
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Agent Hub</h1>
+      <p>Make the web agent-ready</p>
+    </header>
+
+    <div class="card-grid">
+      <div class="card">
+        <h2>Registry</h2>
+        <p>中心市场，发现和接入已适配的网站/API。提供完整的 REST API 用于技能的管理和发现。</p>
+        <a href="#api">查看 API →</a>
+      </div>
+      <div class="card">
+        <h2>Protocol</h2>
+        <p>Skill Descriptor 协议定义，使用 JSON Schema 和 AJV 进行严格的验证。</p>
+        <a href="https://github.com/earyant/all_app_as_agent/tree/main/protocol">查看源码 →</a>
+      </div>
+      <div class="card">
+        <h2>SDK</h2>
+        <p>TypeScript 客户端 SDK，提供类型安全的 API 访问和错误处理。</p>
+        <a href="https://github.com/earyant/all_app_as_agent/tree/main/sdk/typescript">查看文档 →</a>
+      </div>
+    </div>
+
+    <div class="quick-start">
+      <h2>快速开始</h2>
+      <pre><code># 克隆仓库
+git clone https://github.com/earyant/all_app_as_agent.git
+cd all_app_as_agent
+
+# 安装依赖
+pnpm install
+
+# 启动开发服务器
+pnpm dev
+
+# 运行测试
+pnpm test</code></pre>
+    </div>
+
+    <div class="api-section" id="api">
+      <h2>核心 API</h2>
+
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <code>/api/skills</code>
+        <p style="margin-top: 8px;">获取技能列表，支持搜索和分页</p>
+        <pre><code>curl http://localhost:3000/api/skills?q=search&limit=20</code></pre>
+      </div>
+
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <code>/api/skills/:name</code>
+        <p style="margin-top: 8px;">获取技能详情</p>
+        <pre><code>curl http://localhost:3000/api/skills/demo-skill</code></pre>
+      </div>
+
+      <div class="endpoint">
+        <span class="method post">POST</span>
+        <code>/api/skills</code>
+        <p style="margin-top: 8px;">提交新技能</p>
+        <pre><code>curl -X POST http://localhost:3000/api/skills \
+  -H "Content-Type: application/json" \
+  -d '{"descriptor": {...}}'</code></pre>
+      </div>
+
+      <div class="endpoint">
+        <span class="method put">PUT</span>
+        <code>/api/skills/:id</code>
+        <p style="margin-top: 8px;">更新技能信息或审核状态</p>
+      </div>
+
+      <div class="endpoint">
+        <span class="method delete">DELETE</span>
+        <code>/api/skills/:id</code>
+        <p style="margin-top: 8px;">删除技能</p>
+      </div>
+
+      <div class="endpoint">
+        <span class="method post">POST</span>
+        <code>/api/skills/batch/delete</code>
+        <p style="margin-top: 8px;">批量删除技能</p>
+      </div>
+
+      <div class="endpoint">
+        <span class="method post">POST</span>
+        <code>/api/skills/batch/approve</code>
+        <p style="margin-top: 8px;">批量审核技能</p>
+      </div>
+
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <code>/health</code>
+        <p style="margin-top: 8px;">健康检查</p>
+      </div>
+
+      <div class="endpoint">
+        <span class="method get">GET</span>
+        <code>/docs</code>
+        <p style="margin-top: 8px;">Swagger/OpenAPI 文档</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        <a href="https://github.com/earyant/all_app_as_agent">GitHub</a> •
+        <a href="https://github.com/earyant/all_app_as_agent/blob/main/CLAUDE.md">开发指南</a> •
+        <a href="https://github.com/earyant/all_app_as_agent/blob/main/CONTRIBUTING.md">贡献指南</a>
+      </p>
+      <p style="margin-top: 12px;">MIT License</p>
+    </footer>
+  </div>
+</body>
+</html>
