@@ -3,141 +3,365 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agent Hub - Make the web agent-ready</title>
+  <title>Agent Hub - 发现你的专属 Agent</title>
   <base href="/agent-hub/">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.6;
-      color: #333;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #1a1a2e;
+      background: #0f0f23;
       min-height: 100vh;
     }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+    /* Header */
     header {
       text-align: center;
-      color: white;
-      margin-bottom: 60px;
+      padding: 60px 20px 40px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border-radius: 16px;
+      margin-bottom: 40px;
     }
     header h1 {
       font-size: 3rem;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      color: #e94560;
+      margin-bottom: 12px;
+      text-shadow: 0 0 30px rgba(233,69,96,0.5);
     }
     header p {
-      font-size: 1.25rem;
-      opacity: 0.9;
+      font-size: 1.2rem;
+      color: #a0a0a0;
+      max-width: 600px;
+      margin: 0 auto;
     }
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-      margin-bottom: 40px;
+    .search-box {
+      max-width: 500px;
+      margin: 30px auto 0;
+      display: flex;
+      gap: 10px;
     }
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      transition: transform 0.2s, box-shadow 0.2s;
+    .search-box input {
+      flex: 1;
+      padding: 14px 20px;
+      border: 2px solid #333;
+      border-radius: 10px;
+      background: #1a1a2e;
+      color: #fff;
+      font-size: 1rem;
     }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 50px rgba(0,0,0,0.25);
+    .search-box input:focus {
+      outline: none;
+      border-color: #e94560;
     }
-    .card h2 {
-      color: #667eea;
-      margin-bottom: 12px;
-      font-size: 1.5rem;
-    }
-    .card p {
-      color: #666;
-      margin-bottom: 16px;
-    }
-    .card a {
-      color: #764ba2;
-      text-decoration: none;
+    .search-box button {
+      padding: 14px 28px;
+      background: #e94560;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
       font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .card a:hover {
-      text-decoration: underline;
+    .search-box button:hover {
+      background: #ff6b6b;
+      transform: translateY(-2px);
     }
-    .quick-start {
-      background: white;
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
       margin-bottom: 40px;
     }
-    .quick-start h2 {
-      color: #667eea;
-      margin-bottom: 20px;
-    }
-    .quick-start pre {
-      background: #f5f5f5;
-      padding: 16px;
-      border-radius: 8px;
-      overflow-x: auto;
-      font-size: 0.9rem;
-    }
-    .quick-start code {
-      color: #333;
-    }
-    .api-section {
-      background: white;
+    .stat-card {
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      padding: 24px;
       border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      border: 1px solid #333;
     }
-    .api-section h2 {
-      color: #667eea;
-      margin-bottom: 20px;
+    .stat-card .number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #e94560;
     }
-    .endpoint {
-      background: #f8f9fa;
+    .stat-card .label {
+      color: #888;
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    /* Section */
+    .section-title {
+      font-size: 1.8rem;
+      color: #fff;
+      margin: 40px 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 28px;
+      background: #e94560;
+      border-radius: 2px;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+    .skill-card {
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #333;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .skill-card:hover {
+      transform: translateY(-6px);
+      border-color: #e94560;
+      box-shadow: 0 20px 40px rgba(233,69,96,0.15);
+    }
+    .skill-card .header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .skill-card .icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #e94560, #0f3460);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .skill-card .info { flex: 1; min-width: 0; }
+    .skill-card .name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .skill-card .version {
+      font-size: 0.8rem;
+      color: #666;
+      background: #222;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .skill-card .description {
+      color: #a0a0a0;
+      font-size: 0.95rem;
+      margin-bottom: 16px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .skill-card .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-card .tag {
+      font-size: 0.75rem;
+      color: #e94560;
+      background: rgba(233,69,96,0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .skill-card .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #333;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    .skill-card .downloads {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Transformer Section */
+    .transformer-section {
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border-radius: 16px;
+      padding: 40px;
+      border: 1px solid #333;
+      margin-bottom: 60px;
+    }
+    .transformer-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .transformer-text h3 {
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .transformer-text p {
+      color: #a0a0a0;
+      margin-bottom: 24px;
+    }
+    .transformer-text ul {
+      color: #a0a0a0;
+      margin-bottom: 24px;
+      padding-left: 20px;
+    }
+    .transformer-text li { margin-bottom: 8px; }
+    .transformer-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #e94560, #0f3460);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .transformer-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(233,69,96,0.3);
+    }
+    .transformer-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-size: 3rem;
+      padding: 40px;
+      background: rgba(233,69,96,0.05);
+      border-radius: 16px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: #1a1a2e;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid #333;
+    }
+    .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .modal-header h3 { color: #fff; font-size: 1.4rem; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-close:hover { color: #fff; }
+    .modal-body { padding: 24px; }
+    .modal-body .description { color: #a0a0a0; margin-bottom: 20px; }
+    .modal-body .capabilities { margin-bottom: 20px; }
+    .modal-body .capabilities h4 { color: #fff; margin-bottom: 12px; }
+    .modal-body .capability {
+      background: #16213e;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .modal-body .capability .name { color: #e94560; font-weight: 500; margin-bottom: 4px; }
+    .modal-body .capability .desc { color: #888; font-size: 0.9rem; }
+    .modal-body .auth { color: #888; font-size: 0.85rem; }
+    .modal-body .auth strong { color: #fff; }
+    .install-code {
+      background: #0f0f23;
       padding: 16px;
       border-radius: 8px;
-      margin-bottom: 16px;
-      border-left: 4px solid #667eea;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #a0a0a0;
+      overflow-x: auto;
     }
-    .endpoint code {
-      font-family: 'Monaco', 'Consolas', monospace;
-      color: #333;
-    }
-    .method {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-right: 8px;
-    }
-    .method.get { background: #28a745; color: white; }
-    .method.post { background: #007bff; color: white; }
-    .method.put { background: #ffc107; color: #333; }
-    .method.delete { background: #dc3545; color: white; }
+
+    /* Footer */
     footer {
       text-align: center;
-      color: white;
-      margin-top: 60px;
-      padding: 20px;
-      opacity: 0.8;
+      padding: 40px 20px;
+      color: #666;
+      border-top: 1px solid #333;
     }
-    footer a {
-      color: white;
-      text-decoration: none;
+    footer a { color: #e94560; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
     }
-    footer a:hover {
-      text-decoration: underline;
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #333;
+      border-top-color: #e94560;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+    }
+    .empty-state .icon { font-size: 4rem; margin-bottom: 20px; }
+    .empty-state h3 { color: #fff; margin-bottom: 8px; }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 2rem; }
+      .transformer-content { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -145,114 +369,319 @@
   <div class="container">
     <header>
       <h1>Agent Hub</h1>
-      <p>Make the web agent-ready</p>
+      <p>发现、创建你的专属 AI Agent</p>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="搜索 Agent..." />
+        <button onclick="searchSkills()">搜索</button>
+      </div>
     </header>
 
-    <div class="card-grid">
-      <div class="card">
-        <h2>Registry</h2>
-        <p>中心市场，发现和接入已适配的网站/API。提供完整的 REST API 用于技能的管理和发现。</p>
-        <a href="#api">查看 API →</a>
+    <div class="stats">
+      <div class="stat-card">
+        <div class="number" id="totalSkills">-</div>
+        <div class="label">可用 Agent</div>
       </div>
-      <div class="card">
-        <h2>Protocol</h2>
-        <p>Skill Descriptor 协议定义，使用 JSON Schema 和 AJV 进行严格的验证。</p>
-        <a href="https://github.com/earyant/all_app_as_agent/tree/main/protocol">查看源码 →</a>
+      <div class="stat-card">
+        <div class="number" id="totalDownloads">-</div>
+        <div class="label">总下载量</div>
       </div>
-      <div class="card">
-        <h2>SDK</h2>
-        <p>TypeScript 客户端 SDK，提供类型安全的 API 访问和错误处理。</p>
-        <a href="https://github.com/earyant/all_app_as_agent/tree/main/sdk/typescript">查看文档 →</a>
+      <div class="stat-card">
+        <div class="number" id="totalCategories">-</div>
+        <div class="label">分类</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">24/7</div>
+        <div class="label">服务可用</div>
       </div>
     </div>
 
-    <div class="quick-start">
-      <h2>快速开始</h2>
-      <pre><code># 克隆仓库
-git clone https://github.com/earyant/all_app_as_agent.git
-cd all_app_as_agent
-
-# 安装依赖
-pnpm install
-
-# 启动开发服务器
-pnpm dev
-
-# 运行测试
-pnpm test</code></pre>
+    <h2 class="section-title">热门 Agent</h2>
+    <div class="skills-grid" id="skillsGrid">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>加载中...</p>
+      </div>
     </div>
 
-    <div class="api-section" id="api">
-      <h2>核心 API</h2>
-
-      <div class="endpoint">
-        <span class="method get">GET</span>
-        <code>/api/skills</code>
-        <p style="margin-top: 8px;">获取技能列表，支持搜索和分页</p>
-        <pre><code>curl http://localhost:3000/api/skills?q=search&limit=20</code></pre>
-      </div>
-
-      <div class="endpoint">
-        <span class="method get">GET</span>
-        <code>/api/skills/:name</code>
-        <p style="margin-top: 8px;">获取技能详情</p>
-        <pre><code>curl http://localhost:3000/api/skills/demo-skill</code></pre>
-      </div>
-
-      <div class="endpoint">
-        <span class="method post">POST</span>
-        <code>/api/skills</code>
-        <p style="margin-top: 8px;">提交新技能</p>
-        <pre><code>curl -X POST http://localhost:3000/api/skills \
-  -H "Content-Type: application/json" \
-  -d '{"descriptor": {...}}'</code></pre>
-      </div>
-
-      <div class="endpoint">
-        <span class="method put">PUT</span>
-        <code>/api/skills/:id</code>
-        <p style="margin-top: 8px;">更新技能信息或审核状态</p>
-      </div>
-
-      <div class="endpoint">
-        <span class="method delete">DELETE</span>
-        <code>/api/skills/:id</code>
-        <p style="margin-top: 8px;">删除技能</p>
-      </div>
-
-      <div class="endpoint">
-        <span class="method post">POST</span>
-        <code>/api/skills/batch/delete</code>
-        <p style="margin-top: 8px;">批量删除技能</p>
-      </div>
-
-      <div class="endpoint">
-        <span class="method post">POST</span>
-        <code>/api/skills/batch/approve</code>
-        <p style="margin-top: 8px;">批量审核技能</p>
-      </div>
-
-      <div class="endpoint">
-        <span class="method get">GET</span>
-        <code>/health</code>
-        <p style="margin-top: 8px;">健康检查</p>
-      </div>
-
-      <div class="endpoint">
-        <span class="method get">GET</span>
-        <code>/docs</code>
-        <p style="margin-top: 8px;">Swagger/OpenAPI 文档</p>
+    <div class="transformer-section">
+      <div class="transformer-content">
+        <div class="transformer-text">
+          <h3>将你的网站转换为 Agent</h3>
+          <p>Agent Hub Transformer 可以自动分析任何网站，将其转换为 AI Agent 可以直接调用的 Skill。</p>
+          <ul>
+            <li>自动提取网站结构和内容</li>
+            <li>生成标准化的 Skill Descriptor</li>
+            <li>一键发布到 Agent Hub</li>
+            <li>支持自定义转换规则</li>
+          </ul>
+          <button class="transformer-btn" onclick="openTransformer()">
+            <span>🚀</span> 开始转换
+          </button>
+        </div>
+        <div class="transformer-visual">
+          <span>🌐</span>
+          <span>→</span>
+          <span>🤖</span>
+        </div>
       </div>
     </div>
 
     <footer>
       <p>
-        <a href="https://github.com/earyant/all_app_as_agent">GitHub</a> •
-        <a href="https://github.com/earyant/all_app_as_agent/blob/main/CLAUDE.md">开发指南</a> •
-        <a href="https://github.com/earyant/all_app_as_agent/blob/main/CONTRIBUTING.md">贡献指南</a>
+        <a href="https://github.com/earyantLe/agent-hub" target="_blank">GitHub</a> •
+        <a href="https://github.com/earyantLe/agent-hub/blob/main/docs/getting-started.md" target="_blank">文档</a> •
+        <a href="https://github.com/earyantLe/agent-hub/blob/main/CONTRIBUTING.md" target="_blank">贡献指南</a>
       </p>
-      <p style="margin-top: 12px;">MIT License</p>
+      <p style="margin-top: 12px;">MIT License © 2026 Agent Hub</p>
     </footer>
   </div>
+
+  <!-- Skill Detail Modal -->
+  <div class="modal-overlay" id="skillModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Agent 详情</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Content injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const REGISTRY_URL = 'https://agent-hub-api.example.com/api'; // 替换为实际 API 地址
+
+    // 示例 Agent 数据（实际应从 API 获取）
+    const sampleSkills = [
+      {
+        name: 'zhihu-skill',
+        version: '1.2.0',
+        description: '知乎内容搜索和分析助手，可以搜索问题、获取回答详情、分析热门话题',
+        author: { name: 'AgentTeam' },
+        capabilities: [
+          { name: 'searchQuestions', description: '搜索知乎问题' },
+          { name: 'getAnswer', description: '获取问题回答详情' },
+          { name: 'analyzeTrends', description: '分析热门话题趋势' }
+        ],
+        tags: ['社交', '搜索', '分析'],
+        downloads: 1234,
+        auth: { type: 'apiKey', in: 'header', name: 'Authorization' }
+      },
+      {
+        name: 'weather-agent',
+        version: '2.0.1',
+        description: '全球天气预报服务，支持城市查询、多日预报、极端天气预警',
+        author: { name: 'WeatherTeam' },
+        capabilities: [
+          { name: 'getCurrentWeather', description: '获取当前天气' },
+          { name: 'getForecast', description: '获取多日天气预报' },
+          { name: 'getAlerts', description: '获取天气预警信息' }
+        ],
+        tags: ['天气', '实时数据'],
+        downloads: 892,
+        auth: { type: 'none' }
+      },
+      {
+        name: 'translate-pro',
+        version: '1.5.0',
+        description: '专业翻译服务，支持 100+ 语言，提供文本翻译和文档翻译',
+        author: { name: 'TranslateTeam' },
+        capabilities: [
+          { name: 'translateText', description: '翻译文本内容' },
+          { name: 'detectLanguage', description: '自动检测语言' },
+          { name: 'translateDoc', description: '翻译文档' }
+        ],
+        tags: ['翻译', '多语言'],
+        downloads: 2156,
+        auth: { type: 'apiKey', in: 'header', name: 'X-API-Key' }
+      },
+      {
+        name: 'code-helper',
+        version: '3.1.0',
+        description: '编程助手，支持代码解释、错误诊断、最佳实践建议',
+        author: { name: 'DevTeam' },
+        capabilities: [
+          { name: 'explainCode', description: '解释代码功能' },
+          { name: 'diagnoseError', description: '诊断代码错误' },
+          { name: 'suggestOptimization', description: '提供优化建议' }
+        ],
+        tags: ['开发', '编程', '助手'],
+        downloads: 3421,
+        auth: { type: 'none' }
+      },
+      {
+        name: 'news-digest',
+        version: '1.0.3',
+        description: '全球新闻聚合，按类别和来源筛选，支持关键词订阅',
+        author: { name: 'NewsTeam' },
+        capabilities: [
+          { name: 'getHeadlines', description: '获取最新头条' },
+          { name: 'searchNews', description: '搜索相关新闻' },
+          { name: 'getByCategory', description: '按分类获取新闻' }
+        ],
+        tags: ['新闻', '聚合'],
+        downloads: 567,
+        auth: { type: 'none' }
+      },
+      {
+        name: 'image-analyzer',
+        version: '2.2.0',
+        description: 'AI 图像分析，支持物体检测、场景识别、OCR 文字提取',
+        author: { name: 'VisionTeam' },
+        capabilities: [
+          { name: 'detectObjects', description: '检测图像中的物体' },
+          { name: 'recognizeScene', description: '识别场景类型' },
+          { name: 'extractText', description: 'OCR 文字提取' }
+        ],
+        tags: ['图像', 'AI', '视觉'],
+        downloads: 1789,
+        auth: { type: 'oauth2', authorizationUrl: 'https://example.com/oauth', tokenUrl: 'https://example.com/token' }
+      }
+    ];
+
+    let allSkills = [];
+
+    async function loadSkills() {
+      try {
+        // 尝试从 API 加载，失败则使用示例数据
+        const response = await fetch(REGISTRY_URL + '/skills');
+        if (response.ok) {
+          const data = await response.json();
+          allSkills = data.skills || [];
+        } else {
+          allSkills = sampleSkills;
+        }
+      } catch (e) {
+        allSkills = sampleSkills;
+      }
+
+      updateStats();
+      renderSkills(allSkills);
+    }
+
+    function updateStats() {
+      document.getElementById('totalSkills').textContent = allSkills.length;
+      document.getElementById('totalDownloads').textContent =
+        allSkills.reduce((sum, s) => sum + (s.downloads || 0), 0).toLocaleString();
+
+      const categories = new Set();
+      allSkills.forEach(s => {
+        if (s.tags) s.tags.forEach(t => categories.add(t));
+      });
+      document.getElementById('totalCategories').textContent = categories.size;
+    }
+
+    function renderSkills(skills) {
+      const grid = document.getElementById('skillsGrid');
+
+      if (skills.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="icon">🔍</div>
+            <h3>未找到匹配的 Agent</h3>
+            <p>尝试其他关键词或浏览全部</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = skills.map(skill => `
+        <div class="skill-card" onclick="showSkillDetail('${skill.name}')">
+          <div class="header">
+            <div class="icon">🤖</div>
+            <div class="info">
+              <div class="name">${skill.name}</div>
+              <span class="version">v${skill.version}</span>
+            </div>
+          </div>
+          <div class="description">${skill.description}</div>
+          <div class="tags">
+            ${(skill.tags || skill.capabilities?.slice(0,3).map(c => c.name) || []).slice(0,5).map(t =>
+              `<span class="tag">${t}</span>`
+            ).join('')}
+          </div>
+          <div class="meta">
+            <span class="downloads">⬇ ${skill.downloads || 0}</span>
+            <span>${skill.author?.name || 'Unknown'}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function searchSkills() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      if (!query) {
+        renderSkills(allSkills);
+        return;
+      }
+      const filtered = allSkills.filter(s =>
+        s.name.toLowerCase().includes(query) ||
+        s.description.toLowerCase().includes(query) ||
+        (s.tags && s.tags.some(t => t.toLowerCase().includes(query)))
+      );
+      renderSkills(filtered);
+    }
+
+    function showSkillDetail(name) {
+      const skill = allSkills.find(s => s.name === name);
+      if (!skill) return;
+
+      document.getElementById('modalTitle').textContent = skill.name;
+      document.getElementById('modalBody').innerHTML = `
+        <p class="description">${skill.description}</p>
+        <p style="margin-bottom:8px;color:#666;font-size:0.85rem;">作者：${skill.author?.name || 'Unknown'} • 版本：${skill.version}</p>
+
+        <div class="capabilities">
+          <h4>能力列表</h4>
+          ${(skill.capabilities || []).map(c => `
+            <div class="capability">
+              <div class="name">${c.name}</div>
+              <div class="desc">${c.description}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <p class="auth">认证方式：<strong>${getAuthType(skill.auth)}</strong></p>
+
+        <div style="margin-top:20px;">
+          <p style="color:#666;font-size:0.85rem;margin-bottom:8px;">使用 SDK 调用：</p>
+          <div class="install-code">
+const client = new AgentHubClient({ registryUrl: '${REGISTRY_URL.replace('/api','')}' });
+const skill = await client.getSkill('${skill.name}');
+          </div>
+        </div>
+      `;
+      document.getElementById('skillModal').classList.add('active');
+    }
+
+    function getAuthType(auth) {
+      if (!auth || auth.type === 'none') return '无需认证';
+      if (auth.type === 'apiKey') return 'API Key';
+      if (auth.type === 'oauth2') return 'OAuth 2.0';
+      return auth.type;
+    }
+
+    function closeModal() {
+      document.getElementById('skillModal').classList.remove('active');
+    }
+
+    function openTransformer() {
+      alert('Transformer 功能开发中... 敬请期待！\n\n即将支持将任意网站转换为 Agent Skill。');
+    }
+
+    // Close modal on overlay click
+    document.getElementById('skillModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+
+    // Search on Enter
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') searchSkills();
+    });
+
+    // Initialize
+    loadSkills();
+  </script>
 </body>
 </html>
