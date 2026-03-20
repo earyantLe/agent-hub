@@ -108,7 +108,9 @@
         },
         "website": { "type": "string", "format": "uri" },
         "repository": { "type": "string", "format": "uri" },
-        "license": { "type": "string" }
+        "license": { "type": "string" },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "transformerVersion": { "type": "string" }
       }
     }
   },

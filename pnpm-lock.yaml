@@ -117,6 +117,31 @@ importers:
         specifier: ^2.0.0
         version: 2.1.9(@edge-runtime/vm@5.0.0)(@types/node@22.19.15)(@vitest/browser@2.1.9)(@vitest/ui@2.1.9)(happy-dom@20.8.4(bufferutil@4.1.0)(utf-8-validate@6.0.6))(jsdom@29.0.0(@noble/hashes@2.0.1)(canvas@3.2.1))(less@4.6.4)(lightningcss@1.32.0)(msw@2.12.13(@types/node@22.19.15)(typescript@5.9.3))(sass-embedded@1.98.0)(sass@1.98.0)(stylus@0.64.0)(sugarss@5.0.1(postcss@8.5.8))(terser@5.46.1)
 
+  transformer:
+    dependencies:
+      '@agent-hub/protocol':
+        specifier: workspace:*
+        version: link:../protocol
+      cheerio:
+        specifier: ^1.0.0-rc.12
+        version: 1.2.0
+      fastify:
+        specifier: ^4.29.0
+        version: 4.29.1
+      playwright:
+        specifier: ^1.40.0
+        version: 1.58.2
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.19.15
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+
 packages:
 
   '@adobe/css-tools@4.3.3':
@@ -1499,9 +1524,6 @@ packages:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     peerDependencies:
       ajv: ^8.0.0
-    peerDependenciesMeta:
-      ajv:
-        optional: true
 
   ajv@6.14.0:
     resolution: {integrity: sha512-IWrosm/yrn43eiKqkfkHis7QioDleaXQHdDVPKg0FSwwd/DuvyX79TZnFOnYpB7dcsFAMmtFztZuXPDvSePkFw==}
@@ -4343,6 +4365,10 @@ packages:
     engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
       eslint: ^8.56.0
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
@@ -6596,7 +6622,7 @@ snapshots:
       ajv: 8.18.0
 
   ajv-formats@3.0.1(ajv@8.18.0):
-    optionalDependencies:
+    dependencies:
       ajv: 8.18.0
 
   ajv@6.14.0:
@@ -6918,8 +6944,7 @@ snapshots:
       - supports-color
     optional: true
 
-  boolbase@1.0.0:
-    optional: true
+  boolbase@1.0.0: {}
 
   brace-expansion@1.1.12:
     dependencies:
@@ -7033,7 +7058,6 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       domutils: 3.2.2
-    optional: true
 
   cheerio@1.2.0:
     dependencies:
@@ -7048,7 +7072,6 @@ snapshots:
       parse5-parser-stream: 7.1.2
       undici: 7.24.4
       whatwg-mimetype: 4.0.0
-    optional: true
 
   chokidar@4.0.3:
     dependencies:
@@ -7253,7 +7276,6 @@ snapshots:
       domhandler: 5.0.3
       domutils: 3.2.2
       nth-check: 2.1.1
-    optional: true
 
   css-shorthand-properties@1.1.2:
     optional: true
@@ -7267,8 +7289,7 @@ snapshots:
   css-value@0.0.1:
     optional: true
 
-  css-what@6.2.2:
-    optional: true
+  css-what@6.2.2: {}
 
   csstype@3.2.3:
     optional: true
@@ -7363,22 +7384,18 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       entities: 4.5.0
-    optional: true
 
-  domelementtype@2.3.0:
-    optional: true
+  domelementtype@2.3.0: {}
 
   domhandler@5.0.3:
     dependencies:
       domelementtype: 2.3.0
-    optional: true
 
   domutils@3.2.2:
     dependencies:
       dom-serializer: 2.0.0
       domelementtype: 2.3.0
       domhandler: 5.0.3
-    optional: true
 
   dunder-proto@1.0.1:
     dependencies:
@@ -7429,20 +7446,16 @@ snapshots:
     dependencies:
       iconv-lite: 0.6.3
       whatwg-encoding: 3.1.1
-    optional: true
 
   end-of-stream@1.4.5:
     dependencies:
       once: 1.4.0
 
-  entities@4.5.0:
-    optional: true
+  entities@4.5.0: {}
 
-  entities@6.0.1:
-    optional: true
+  entities@6.0.1: {}
 
-  entities@7.0.1:
-    optional: true
+  entities@7.0.1: {}
 
   env-paths@2.2.1:
     optional: true
@@ -8051,7 +8064,6 @@ snapshots:
       domhandler: 5.0.3
       domutils: 3.2.2
       entities: 7.0.1
-    optional: true
 
   http-errors@2.0.0:
     dependencies:
@@ -8092,7 +8104,6 @@ snapshots:
   iconv-lite@0.6.3:
     dependencies:
       safer-buffer: 2.1.2
-    optional: true
 
   iconv-lite@0.7.2:
     dependencies:
@@ -8994,7 +9005,6 @@ snapshots:
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
-    optional: true
 
   nullthrows@1.1.1:
     optional: true
@@ -9136,17 +9146,14 @@ snapshots:
     dependencies:
       domhandler: 5.0.3
       parse5: 7.3.0
-    optional: true
 
   parse5-parser-stream@7.1.2:
     dependencies:
       parse5: 7.3.0
-    optional: true
 
   parse5@7.3.0:
     dependencies:
       entities: 6.0.1
-    optional: true
 
   parse5@8.0.0:
     dependencies:
@@ -9299,15 +9306,13 @@ snapshots:
   pirates@4.0.7:
     optional: true
 
-  playwright-core@1.58.2:
-    optional: true
+  playwright-core@1.58.2: {}
 
   playwright@1.58.2:
     dependencies:
       playwright-core: 1.58.2
     optionalDependencies:
       fsevents: 2.3.2
-    optional: true
 
   postcss@8.5.8:
     dependencies:
@@ -9720,8 +9725,7 @@ snapshots:
 
   safe-stable-stringify@2.5.0: {}
 
-  safer-buffer@2.1.2:
-    optional: true
+  safer-buffer@2.1.2: {}
 
   sass-embedded-all-unknown@1.98.0:
     dependencies:
@@ -10334,9 +10338,10 @@ snapshots:
       '@typescript-eslint/parser': 7.18.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/utils': 7.18.0(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.4(jiti@2.6.1)
+    optionalDependencies:
+      typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
-      - typescript
 
   typescript@5.9.3: {}
 
@@ -10345,8 +10350,7 @@ snapshots:
   undici@6.24.1:
     optional: true
 
-  undici@7.24.4:
-    optional: true
+  undici@7.24.4: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
     optional: true
@@ -10575,7 +10579,6 @@ snapshots:
   whatwg-encoding@3.1.1:
     dependencies:
       iconv-lite: 0.6.3
-    optional: true
 
   whatwg-fetch@3.6.20:
     optional: true
@@ -10583,8 +10586,7 @@ snapshots:
   whatwg-mimetype@3.0.0:
     optional: true
 
-  whatwg-mimetype@4.0.0:
-    optional: true
+  whatwg-mimetype@4.0.0: {}
 
   whatwg-mimetype@5.0.0:
     optional: true

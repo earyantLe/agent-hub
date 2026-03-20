@@ -1,4 +1,4 @@
-import { chromium, type Browser, type Page } from 'playwright';
+import { chromium, type Browser } from 'playwright';
 import * as cheerio from 'cheerio';
 import type { SkillDescriptor } from '@agent-hub/protocol';
 
@@ -89,8 +89,6 @@ export class WebsiteTransformer {
 
     // 分析页面功能
     const forms = $('form');
-    const inputs = $('input, textarea, select');
-    const buttons = $('button, input[type="button"], input[type="submit"]');
     const links = $('a[href]');
     const tables = $('table');
     const images = $('img');
@@ -109,10 +107,15 @@ export class WebsiteTransformer {
     forms.each((_, form) => {
       $(form).find('input, textarea, select').each((__, field) => {
         const $field = $(field);
+        const typeAttr = $field.attr('type');
+        const tagName = ($field.prop('tagName') as string).toLowerCase() || 'input';
+        const fieldType = typeAttr ?? tagName;
+        const requiredAttr = $field.prop('required');
+        const fieldRequired = !!requiredAttr;
         formFields.push({
           name: $field.attr('name'),
-          type: $field.attr('type') || $field.prop('tagName').toLowerCase(),
-          required: $field.prop('required') || false
+          type: fieldType,
+          required: fieldRequired
         });
       });
     });
@@ -246,7 +249,8 @@ export class WebsiteTransformer {
       capabilities,
       auth: { type: 'none' },
       metadata: {
-        sourceUrl: url,
+        tags: [],
+        website: url,
         generatedAt: new Date().toISOString(),
         transformerVersion: '0.1.0'
       },

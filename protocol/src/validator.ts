@@ -32,6 +32,11 @@ export interface SkillDescriptor {
     website?: string;
     repository?: string;
     license?: string;
+    generatedAt?: string;
+    transformerVersion?: string;
+  };
+  links?: {
+    homepage?: string;
   };
   [key: string]: unknown;
 }
