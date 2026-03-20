@@ -36,6 +36,40 @@
       max-width: 600px;
       margin: 0 auto;
     }
+    .hero-description {
+      max-width: 800px;
+      margin: 30px auto 0;
+      padding: 24px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(233,69,96,0.2);
+    }
+    .hero-description h2 {
+      color: #e94560;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+    }
+    .hero-description p {
+      color: #a0a0a0;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+    .hero-description ul {
+      color: #a0a0a0;
+      padding-left: 20px;
+      margin: 12px 0;
+    }
+    .hero-description li {
+      margin-bottom: 8px;
+    }
+    .hero-description kbd {
+      background: #1a1a2e;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid #333;
+      font-family: monospace;
+      color: #e94560;
+    }
     .search-box {
       max-width: 500px;
       margin: 30px auto 0;
@@ -417,6 +451,16 @@
         <input type="text" id="searchInput" placeholder="搜索 Agent..." />
         <button onclick="searchSkills()">搜索</button>
       </div>
+      <div class="hero-description">
+        <h2>什么是 Agent Hub？</h2>
+        <p><strong>Agent Hub 是一个 Agent 技能市场</strong>，帮助你将任何网站/API 转换为 AI Agent 可调用的技能。</p>
+        <ul>
+          <li><strong>发现 Agent</strong> - 浏览已注册的 Agent 技能，直接集成到你的 AI 应用中</li>
+          <li><strong>转换网站</strong> - 输入任意网站 URL，自动生成 Skill Descriptor</li>
+          <li><strong>发布技能</strong> - 将你的 API 或服务发布到市场，供他人使用</li>
+        </ul>
+        <p>使用 <kbd>pnpm --filter transformer start https://example.com</kbd> 快速转换网站</p>
+      </div>
     </header>
 
     <div class="stats">
@@ -531,8 +575,16 @@
   </div>
 
   <script>
-    const REGISTRY_URL = 'https://agent-hub-api.example.com/api';
-    const TRANSFORMER_URL = 'https://agent-hub-api.example.com/api';
+    // GitHub 配置
+    const GITHUB_OWNER = 'earyantLe';
+    const GITHUB_REPO = 'agent-hub';
+    const GITHUB_BRANCH = 'main';
+    const SKILLS_DIR = 'skills';
+
+    // 计算 GitHub Pages 基础 URL
+    const baseUrl = window.location.hostname === 'earyantle.github.io'
+      ? `https://earyantle.github.io/${GITHUB_REPO}`
+      : '.';
 
     const sampleSkills = [
       {
@@ -620,14 +672,17 @@
 
     async function loadSkills() {
       try {
-        const response = await fetch(REGISTRY_URL + '/skills');
+        // 从 GitHub 托管的 skills/index.json 加载
+        const response = await fetch(`${baseUrl}/${SKILLS_DIR}/index.json`);
         if (response.ok) {
           const data = await response.json();
           allSkills = data.skills || [];
-        } else {
+        }
+        if (allSkills.length === 0) {
           allSkills = sampleSkills;
         }
       } catch (e) {
+        console.error('Failed to load skills:', e);
         allSkills = sampleSkills;
       }
       updateStats();
@@ -700,7 +755,7 @@
         <p class="auth">认证方式：<strong>${getAuthType(skill.auth)}</strong></p>
         <div style="margin-top:20px;">
           <p style="color:#666;font-size:0.85rem;margin-bottom:8px;">使用 SDK 调用：</p>
-          <div class="install-code">const client = new AgentHubClient({ registryUrl: '${REGISTRY_URL.replace('/api','')}' });\nconst skill = await client.getSkill('${skill.name}');</div>
+          <div class="install-code">const client = new AgentHubClient({ registryUrl: '${baseUrl}' });\nconst skill = await client.getSkill('${skill.name}');</div>
         </div>
       `;
       document.getElementById('skillModal').classList.add('active');

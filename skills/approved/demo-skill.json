@@ -1,0 +1,48 @@
+{
+  "name": "demo-skill",
+  "version": "1.0.0",
+  "description": "示例技能 - 展示如何使用 Agent Hub",
+  "author": {
+    "name": "Agent Hub Team",
+    "email": "team@agent-hub.dev"
+  },
+  "capabilities": [
+    {
+      "name": "hello",
+      "description": "打招呼",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "用户名"
+          }
+        },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "getTime",
+      "description": "获取当前时间",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "timezone": {
+            "type": "string",
+            "description": "时区，例如 Asia/Shanghai"
+          }
+        }
+      }
+    }
+  ],
+  "auth": {
+    "type": "none"
+  },
+  "metadata": {
+    "tags": ["示例", "demo"],
+    "website": "https://github.com/earyantLe/agent-hub"
+  },
+  "links": {
+    "homepage": "https://github.com/earyantLe/agent-hub"
+  }
+}
