@@ -1,0 +1,26 @@
+{
+  "name": "@agent-hub/transformer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "将网站转换为 Agent Skill Descriptor",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/cli.ts",
+    "start": "tsx src/cli.ts",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agent-hub/protocol": "workspace:*",
+    "cheerio": "^1.0.0-rc.12",
+    "playwright": "^1.40.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0"
+  }
+}

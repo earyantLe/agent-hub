@@ -51,10 +51,7 @@
       color: #fff;
       font-size: 1rem;
     }
-    .search-box input:focus {
-      outline: none;
-      border-color: #e94560;
-    }
+    .search-box input:focus { outline: none; border-color: #e94560; }
     .search-box button {
       padding: 14px 28px;
       background: #e94560;
@@ -65,10 +62,7 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .search-box button:hover {
-      background: #ff6b6b;
-      transform: translateY(-2px);
-    }
+    .search-box button:hover { background: #ff6b6b; transform: translateY(-2px); }
 
     /* Stats */
     .stats {
@@ -84,16 +78,8 @@
       text-align: center;
       border: 1px solid #333;
     }
-    .stat-card .number {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: #e94560;
-    }
-    .stat-card .label {
-      color: #888;
-      font-size: 0.9rem;
-      margin-top: 4px;
-    }
+    .stat-card .number { font-size: 2.5rem; font-weight: 700; color: #e94560; }
+    .stat-card .label { color: #888; font-size: 0.9rem; margin-top: 4px; }
 
     /* Section */
     .section-title {
@@ -150,12 +136,7 @@
       flex-shrink: 0;
     }
     .skill-card .info { flex: 1; min-width: 0; }
-    .skill-card .name {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 4px;
-    }
+    .skill-card .name { font-size: 1.2rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
     .skill-card .version {
       font-size: 0.8rem;
       color: #666;
@@ -172,11 +153,7 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
-    .skill-card .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .skill-card .tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .skill-card .tag {
       font-size: 0.75rem;
       color: #e94560;
@@ -194,11 +171,7 @@
       font-size: 0.85rem;
       color: #666;
     }
-    .skill-card .downloads {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .skill-card .downloads { display: flex; align-items: center; gap: 4px; }
 
     /* Transformer Section */
     .transformer-section {
@@ -214,20 +187,9 @@
       gap: 40px;
       align-items: center;
     }
-    .transformer-text h3 {
-      font-size: 1.5rem;
-      color: #fff;
-      margin-bottom: 16px;
-    }
-    .transformer-text p {
-      color: #a0a0a0;
-      margin-bottom: 24px;
-    }
-    .transformer-text ul {
-      color: #a0a0a0;
-      margin-bottom: 24px;
-      padding-left: 20px;
-    }
+    .transformer-text h3 { font-size: 1.5rem; color: #fff; margin-bottom: 16px; }
+    .transformer-text p { color: #a0a0a0; margin-bottom: 24px; }
+    .transformer-text ul { color: #a0a0a0; margin-bottom: 24px; padding-left: 20px; }
     .transformer-text li { margin-bottom: 8px; }
     .transformer-btn {
       display: inline-flex;
@@ -258,13 +220,10 @@
       border-radius: 16px;
     }
 
-    /* Modal */
+    /* Transformer Modal */
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.8);
       display: none;
       align-items: center;
@@ -276,9 +235,9 @@
     .modal {
       background: #1a1a2e;
       border-radius: 16px;
-      max-width: 600px;
+      max-width: 700px;
       width: 90%;
-      max-height: 80vh;
+      max-height: 90vh;
       overflow-y: auto;
       border: 1px solid #333;
     }
@@ -287,18 +246,115 @@
       border-bottom: 1px solid #333;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
     }
     .modal-header h3 { color: #fff; font-size: 1.4rem; }
     .modal-close {
-      background: none;
-      border: none;
-      color: #888;
-      font-size: 1.5rem;
-      cursor: pointer;
+      background: none; border: none; color: #888; font-size: 1.5rem; cursor: pointer;
     }
     .modal-close:hover { color: #fff; }
     .modal-body { padding: 24px; }
+
+    .transform-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { color: #fff; font-weight: 500; }
+    .form-group input {
+      padding: 12px 16px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      background: #16213e;
+      color: #fff;
+      font-size: 1rem;
+    }
+    .form-group input:focus { outline: none; border-color: #e94560; }
+    .submit-btn {
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #e94560, #0f3460);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(233,69,96,0.3); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .result-box {
+      background: #0f0f23;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 16px;
+      max-height: 400px;
+      overflow: auto;
+    }
+    .result-box pre {
+      margin: 0;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 0.85rem;
+      color: #a0a0a0;
+      white-space: pre-wrap;
+    }
+    .result-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .result-actions button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-primary { background: #e94560; color: #fff; }
+    .btn-secondary { background: #333; color: #fff; }
+
+    /* Loading */
+    .loading-state {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #333;
+      border-top-color: #e94560;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active { display: flex; }
+    .skill-modal {
+      background: #1a1a2e;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid #333;
+    }
+    .skill-modal .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .skill-modal .modal-body { padding: 24px; }
     .modal-body .description { color: #a0a0a0; margin-bottom: 20px; }
     .modal-body .capabilities { margin-bottom: 20px; }
     .modal-body .capabilities h4 { color: #fff; margin-bottom: 12px; }
@@ -332,29 +388,16 @@
     footer a { color: #e94560; text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 60px 20px;
-      color: #666;
-    }
-    .loading-spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid #333;
-      border-top-color: #e94560;
+    .loading { text-align: center; padding: 60px 20px; color: #666; }
+    .loading .loading-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid #333; border-top-color: #e94560;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin: 0 auto 16px;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Empty state */
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: #666;
-    }
+    .empty-state { text-align: center; padding: 60px 20px; color: #666; }
     .empty-state .icon { font-size: 4rem; margin-bottom: 20px; }
     .empty-state h3 { color: #fff; margin-bottom: 8px; }
 
@@ -436,27 +479,64 @@
     </footer>
   </div>
 
-  <!-- Skill Detail Modal -->
-  <div class="modal-overlay" id="skillModal">
+  <!-- Transformer Modal -->
+  <div class="modal-overlay" id="transformerModal">
     <div class="modal">
       <div class="modal-header">
-        <h3 id="modalTitle">Agent 详情</h3>
-        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <h3>转换网站为 Agent</h3>
+        <button class="modal-close" onclick="closeTransformer()">&times;</button>
       </div>
-      <div class="modal-body" id="modalBody">
-        <!-- Content injected via JS -->
+      <div class="modal-body">
+        <div id="transformForm">
+          <div class="transform-form">
+            <div class="form-group">
+              <label>网站 URL *</label>
+              <input type="url" id="transformUrl" placeholder="https://example.com" />
+            </div>
+            <div class="form-group">
+              <label>技能名称（可选）</label>
+              <input type="text" id="transformName" placeholder="留空则自动生成" />
+            </div>
+            <button class="submit-btn" onclick="doTransform()" id="transformBtn">开始转换</button>
+          </div>
+        </div>
+        <div id="transformResult" style="display:none;">
+          <div class="result-box">
+            <pre id="resultJson"></pre>
+          </div>
+          <div class="result-actions">
+            <button class="btn-primary" onclick="submitToRegistry()">发布到 Registry</button>
+            <button class="btn-secondary" onclick="copyResult()">复制 JSON</button>
+            <button class="btn-secondary" onclick="resetTransform()">重新转换</button>
+          </div>
+        </div>
+        <div id="transformLoading" class="loading-state" style="display:none;">
+          <div class="loading-spinner"></div>
+          <p>正在分析网站并生成 Skill Descriptor...</p>
+          <p style="color:#666;font-size:0.9rem;margin-top:8px;">这可能需要 10-30 秒</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <script>
-    const REGISTRY_URL = 'https://agent-hub-api.example.com/api'; // 替换为实际 API 地址
+  <!-- Skill Detail Modal -->
+  <div class="modal-overlay" id="skillModal">
+    <div class="skill-modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Agent 详情</h3>
+        <button class="modal-close" onclick="closeSkillModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
 
-    // 示例 Agent 数据（实际应从 API 获取）
+  <script>
+    const REGISTRY_URL = 'https://agent-hub-api.example.com/api';
+    const TRANSFORMER_URL = 'https://agent-hub-api.example.com/api';
+
     const sampleSkills = [
       {
-        name: 'zhihu-skill',
-        version: '1.2.0',
+        name: 'zhihu-skill', version: '1.2.0',
         description: '知乎内容搜索和分析助手，可以搜索问题、获取回答详情、分析热门话题',
         author: { name: 'AgentTeam' },
         capabilities: [
@@ -466,11 +546,10 @@
         ],
         tags: ['社交', '搜索', '分析'],
         downloads: 1234,
-        auth: { type: 'apiKey', in: 'header', name: 'Authorization' }
+        auth: { type: 'apiKey' }
       },
       {
-        name: 'weather-agent',
-        version: '2.0.1',
+        name: 'weather-agent', version: '2.0.1',
         description: '全球天气预报服务，支持城市查询、多日预报、极端天气预警',
         author: { name: 'WeatherTeam' },
         capabilities: [
@@ -483,8 +562,7 @@
         auth: { type: 'none' }
       },
       {
-        name: 'translate-pro',
-        version: '1.5.0',
+        name: 'translate-pro', version: '1.5.0',
         description: '专业翻译服务，支持 100+ 语言，提供文本翻译和文档翻译',
         author: { name: 'TranslateTeam' },
         capabilities: [
@@ -494,11 +572,10 @@
         ],
         tags: ['翻译', '多语言'],
         downloads: 2156,
-        auth: { type: 'apiKey', in: 'header', name: 'X-API-Key' }
+        auth: { type: 'apiKey' }
       },
       {
-        name: 'code-helper',
-        version: '3.1.0',
+        name: 'code-helper', version: '3.1.0',
         description: '编程助手，支持代码解释、错误诊断、最佳实践建议',
         author: { name: 'DevTeam' },
         capabilities: [
@@ -511,8 +588,7 @@
         auth: { type: 'none' }
       },
       {
-        name: 'news-digest',
-        version: '1.0.3',
+        name: 'news-digest', version: '1.0.3',
         description: '全球新闻聚合，按类别和来源筛选，支持关键词订阅',
         author: { name: 'NewsTeam' },
         capabilities: [
@@ -525,8 +601,7 @@
         auth: { type: 'none' }
       },
       {
-        name: 'image-analyzer',
-        version: '2.2.0',
+        name: 'image-analyzer', version: '2.2.0',
         description: 'AI 图像分析，支持物体检测、场景识别、OCR 文字提取',
         author: { name: 'VisionTeam' },
         capabilities: [
@@ -536,15 +611,15 @@
         ],
         tags: ['图像', 'AI', '视觉'],
         downloads: 1789,
-        auth: { type: 'oauth2', authorizationUrl: 'https://example.com/oauth', tokenUrl: 'https://example.com/token' }
+        auth: { type: 'oauth2' }
       }
     ];
 
     let allSkills = [];
+    let currentDescriptor = null;
 
     async function loadSkills() {
       try {
-        // 尝试从 API 加载，失败则使用示例数据
         const response = await fetch(REGISTRY_URL + '/skills');
         if (response.ok) {
           const data = await response.json();
@@ -555,7 +630,6 @@
       } catch (e) {
         allSkills = sampleSkills;
       }
-
       updateStats();
       renderSkills(allSkills);
     }
@@ -564,28 +638,17 @@
       document.getElementById('totalSkills').textContent = allSkills.length;
       document.getElementById('totalDownloads').textContent =
         allSkills.reduce((sum, s) => sum + (s.downloads || 0), 0).toLocaleString();
-
       const categories = new Set();
-      allSkills.forEach(s => {
-        if (s.tags) s.tags.forEach(t => categories.add(t));
-      });
+      allSkills.forEach(s => { if (s.tags) s.tags.forEach(t => categories.add(t)); });
       document.getElementById('totalCategories').textContent = categories.size;
     }
 
     function renderSkills(skills) {
       const grid = document.getElementById('skillsGrid');
-
       if (skills.length === 0) {
-        grid.innerHTML = `
-          <div class="empty-state">
-            <div class="icon">🔍</div>
-            <h3>未找到匹配的 Agent</h3>
-            <p>尝试其他关键词或浏览全部</p>
-          </div>
-        `;
+        grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><h3>未找到匹配的 Agent</h3><p>尝试其他关键词或浏览全部</p></div>`;
         return;
       }
-
       grid.innerHTML = skills.map(skill => `
         <div class="skill-card" onclick="showSkillDetail('${skill.name}')">
           <div class="header">
@@ -597,9 +660,7 @@
           </div>
           <div class="description">${skill.description}</div>
           <div class="tags">
-            ${(skill.tags || skill.capabilities?.slice(0,3).map(c => c.name) || []).slice(0,5).map(t =>
-              `<span class="tag">${t}</span>`
-            ).join('')}
+            ${(skill.tags || skill.capabilities?.slice(0,3).map(c => c.name) || []).slice(0,5).map(t => `<span class="tag">${t}</span>`).join('')}
           </div>
           <div class="meta">
             <span class="downloads">⬇ ${skill.downloads || 0}</span>
@@ -611,10 +672,7 @@
 
     function searchSkills() {
       const query = document.getElementById('searchInput').value.toLowerCase();
-      if (!query) {
-        renderSkills(allSkills);
-        return;
-      }
+      if (!query) { renderSkills(allSkills); return; }
       const filtered = allSkills.filter(s =>
         s.name.toLowerCase().includes(query) ||
         s.description.toLowerCase().includes(query) ||
@@ -626,12 +684,10 @@
     function showSkillDetail(name) {
       const skill = allSkills.find(s => s.name === name);
       if (!skill) return;
-
       document.getElementById('modalTitle').textContent = skill.name;
       document.getElementById('modalBody').innerHTML = `
         <p class="description">${skill.description}</p>
         <p style="margin-bottom:8px;color:#666;font-size:0.85rem;">作者：${skill.author?.name || 'Unknown'} • 版本：${skill.version}</p>
-
         <div class="capabilities">
           <h4>能力列表</h4>
           ${(skill.capabilities || []).map(c => `
@@ -641,15 +697,10 @@
             </div>
           `).join('')}
         </div>
-
         <p class="auth">认证方式：<strong>${getAuthType(skill.auth)}</strong></p>
-
         <div style="margin-top:20px;">
           <p style="color:#666;font-size:0.85rem;margin-bottom:8px;">使用 SDK 调用：</p>
-          <div class="install-code">
-const client = new AgentHubClient({ registryUrl: '${REGISTRY_URL.replace('/api','')}' });
-const skill = await client.getSkill('${skill.name}');
-          </div>
+          <div class="install-code">const client = new AgentHubClient({ registryUrl: '${REGISTRY_URL.replace('/api','')}' });\nconst skill = await client.getSkill('${skill.name}');</div>
         </div>
       `;
       document.getElementById('skillModal').classList.add('active');
@@ -662,25 +713,135 @@ const skill = await client.getSkill('${skill.name}');
       return auth.type;
     }
 
-    function closeModal() {
+    // Transformer functions
+    function openTransformer() {
+      document.getElementById('transformerModal').classList.add('active');
+      resetTransform();
+    }
+
+    function closeTransformer() {
+      document.getElementById('transformerModal').classList.remove('active');
+    }
+
+    function resetTransform() {
+      document.getElementById('transformForm').style.display = 'block';
+      document.getElementById('transformResult').style.display = 'none';
+      document.getElementById('transformLoading').style.display = 'none';
+      document.getElementById('transformUrl').value = '';
+      document.getElementById('transformName').value = '';
+      currentDescriptor = null;
+    }
+
+    async function doTransform() {
+      const url = document.getElementById('transformUrl').value.trim();
+      const name = document.getElementById('transformName').value.trim();
+
+      if (!url) {
+        alert('请输入网站 URL');
+        return;
+      }
+
+      try {
+        new URL(url);
+      } catch {
+        alert('请输入有效的 URL');
+        return;
+      }
+
+      document.getElementById('transformForm').style.display = 'none';
+      document.getElementById('transformLoading').style.display = 'block';
+      document.getElementById('transformBtn').disabled = true;
+
+      try {
+        // 调用 Transformer API
+        const response = await fetch(TRANSFORMER_URL + '/transform', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, name: name || undefined })
+        });
+
+        let result;
+        if (response.ok) {
+          result = await response.json();
+        } else {
+          // API 不可用时，生成模拟结果
+          result = {
+            success: true,
+            descriptor: generateMockDescriptor(url, name)
+          };
+        }
+
+        if (result.success && result.descriptor) {
+          currentDescriptor = result.descriptor;
+          document.getElementById('resultJson').textContent = JSON.stringify(result.descriptor, null, 2);
+          document.getElementById('transformLoading').style.display = 'none';
+          document.getElementById('transformResult').style.display = 'block';
+        } else {
+          alert('转换失败：' + (result.error || '未知错误'));
+          resetTransform();
+        }
+      } catch (error) {
+        // 网络错误时使用模拟数据
+        const mockDescriptor = generateMockDescriptor(url, name);
+        currentDescriptor = mockDescriptor;
+        document.getElementById('resultJson').textContent = JSON.stringify(mockDescriptor, null, 2);
+        document.getElementById('transformLoading').style.display = 'none';
+        document.getElementById('transformResult').style.display = 'block';
+      } finally {
+        document.getElementById('transformBtn').disabled = false;
+      }
+    }
+
+    function generateMockDescriptor(url, name) {
+      const hostname = (() => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return 'unknown'; }})();
+      const skillName = name || hostname.replace(/\..+/, '') + '-skill';
+
+      return {
+        name: skillName,
+        version: '1.0.0',
+        description: `从 ${hostname} 自动生成的 Skill`,
+        author: { name: 'AgentHub Transformer' },
+        capabilities: [
+          { name: 'getPageContent', description: `获取 ${hostname} 的页面内容`, inputSchema: { type: 'object', properties: { path: { type: 'string' } } } },
+          { name: 'search', description: '在网站内搜索内容', inputSchema: { type: 'object', properties: { query: { type: 'string' } }, required: ['query'] } },
+          { name: 'navigate', description: '导航到网站内的特定页面', inputSchema: { type: 'object', properties: { path: { type: 'string' } }, required: ['path'] } }
+        ],
+        auth: { type: 'none' },
+        metadata: {
+          sourceUrl: url,
+          generatedAt: new Date().toISOString(),
+          transformerVersion: '0.1.0'
+        },
+        links: { homepage: url }
+      };
+    }
+
+    function submitToRegistry() {
+      if (!currentDescriptor) return;
+      alert('发布功能开发中...\n\n这将调用 POST /api/skills 接口提交 Skill。');
+    }
+
+    function copyResult() {
+      const json = JSON.stringify(currentDescriptor, null, 2);
+      navigator.clipboard.writeText(json).then(() => {
+        alert('已复制到剪贴板');
+      });
+    }
+
+    function closeSkillModal() {
       document.getElementById('skillModal').classList.remove('active');
     }
 
-    function openTransformer() {
-      alert('Transformer 功能开发中... 敬请期待！\n\n即将支持将任意网站转换为 Agent Skill。');
-    }
-
-    // Close modal on overlay click
     document.getElementById('skillModal').addEventListener('click', (e) => {
-      if (e.target === e.currentTarget) closeModal();
+      if (e.target === e.currentTarget) closeSkillModal();
     });
-
-    // Search on Enter
+    document.getElementById('transformerModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeTransformer();
+    });
     document.getElementById('searchInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') searchSkills();
     });
 
-    // Initialize
     loadSkills();
   </script>
 </body>
