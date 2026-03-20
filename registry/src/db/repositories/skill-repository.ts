@@ -1,6 +1,6 @@
 import type { Kysely } from 'kysely';
 import { sql } from 'kysely';
-import type { Database } from '../schema.js';
+import type { Database, JsonValue } from '../schema.js';
 
 export interface SkillRow {
   id: number;
@@ -8,7 +8,7 @@ export interface SkillRow {
   version: string;
   description: string;
   author: string | null;
-  rawDescriptor: any;
+  rawDescriptor: JsonValue;
   status: 'pending' | 'approved' | 'rejected';
   downloadCount: number;
   createdAt: Date;
@@ -56,7 +56,7 @@ export class SkillRepository {
     version: string;
     description: string;
     author: string | null;
-    rawDescriptor: any;
+    rawDescriptor: JsonValue;
     status: 'pending' | 'approved' | 'rejected';
   }): Promise<SkillRow> {
     return this.db
@@ -84,5 +84,42 @@ export class SkillRepository {
       })
       .where('id', '=', id)
       .execute();
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const result = await this.db
+      .deleteFrom('skills')
+      .where('id', '=', id)
+      .executeTakeFirst();
+    return result.numDeletedRows > 0;
+  }
+
+  async findById(id: number): Promise<SkillRow | null> {
+    const result = await this.db
+      .selectFrom('skills')
+      .selectAll()
+      .where('id', '=', id)
+      .executeTakeFirst();
+    return result as SkillRow | null;
+  }
+
+  async findByTag(tag: string, limit = 20): Promise<SkillRow[]> {
+    return this.db
+      .selectFrom('skills')
+      .selectAll()
+      .where('status', '=', 'approved')
+      .where('rawDescriptor', '@>', sql<string>`{ metadata: { tags: [${sql.ref(tag)}] } }`)
+      .orderBy('downloadCount', 'desc')
+      .limit(limit)
+      .execute() as Promise<SkillRow[]>;
+  }
+
+  async count(): Promise<number> {
+    const result = await this.db
+      .selectFrom('skills')
+      .select((eb) => eb.fn.count('id').as('count'))
+      .where('status', '=', 'approved')
+      .executeTakeFirst();
+    return Number(result?.count ?? 0);
   }
 }

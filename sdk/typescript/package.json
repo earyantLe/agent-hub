@@ -8,6 +8,7 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "test": "vitest",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint src"
   },
   "dependencies": {

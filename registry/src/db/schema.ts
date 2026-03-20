@@ -5,13 +5,17 @@ export interface Database {
   capability: CapabilityTable;
 }
 
+export type JsonValue = string | number | boolean | null | JsonArray | JsonObject;
+export interface JsonArray extends Array<JsonValue> {}
+export interface JsonObject { [key: string]: JsonValue }
+
 export interface SkillTable {
   id: Generated<number>;
   name: string;
   version: string;
   description: string;
   author: string | null;
-  rawDescriptor: string;
+  rawDescriptor: JsonValue;
   status: 'pending' | 'approved' | 'rejected';
   downloadCount: number;
   createdAt: Generated<Date>;
@@ -54,11 +58,13 @@ export async function migrate(database: Kysely<Database>) {
     .createIndex('idx_skills_name')
     .on('skills')
     .column('name')
+    .ifNotExists()
     .execute();
 
   await database.schema
     .createIndex('idx_capability_skill_id')
     .on('capability')
     .column('skillId')
+    .ifNotExists()
     .execute();
 }

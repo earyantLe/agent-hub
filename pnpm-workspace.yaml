@@ -1,5 +1,4 @@
 packages:
   - 'protocol'
   - 'registry'
-  - 'transformer'
   - 'sdk/*'

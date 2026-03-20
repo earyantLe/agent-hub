@@ -11,6 +11,14 @@
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true
-  }
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["protocol/src/**/*", "registry/src/**/*", "sdk/**/src/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts", "dist"]
 }
