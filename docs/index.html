@@ -672,8 +672,8 @@
 
     async function loadSkills() {
       try {
-        // 从 GitHub 托管的 skills/index.json 加载
-        const response = await fetch(`${baseUrl}/${SKILLS_DIR}/index.json`);
+        // 从 GitHub Pages 加载 skills/index.json
+        const response = await fetch(`${baseUrl}/skills/index.json`);
         if (response.ok) {
           const data = await response.json();
           allSkills = data.skills || [];
