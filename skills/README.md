@@ -1,33 +1,22 @@
 # Agent Hub 技能市场
 
-本仓库存储所有已注册的 Skill Descriptor，通过 GitHub Issues 进行审核和管理。
+本仓库存储所有已注册的 Skill Descriptor，通过 GitHub 进行托管和分发。
 
 ## 使用方式
 
-### 提交 Skill
+### 浏览技能市场
 
-1. 访问 [Issues](https://github.com/earyantLe/agent-hub/issues) 页面
-2. 点击 **New Issue**
-3. 选择 **Submit a Skill** 模板
-4. 填写 Skill Descriptor JSON
+访问：https://earyantle.github.io/agent-hub/
 
-### 搜索 Skill
+### 查看技能列表
 
-- 使用 GitHub 搜索：`is:issue is:closed label:approved`
-- 或在技能市场页面浏览：https://earyantle.github.io/agent-hub/
+直接访问技能索引文件：https://earyantle.github.io/agent-hub/skills/index.json
 
-### 使用 SDK 访问
+### 查看单个技能
 
-```typescript
-import { AgentHubClient } from '@agent-hub/sdk';
+访问技能文件：https://earyantle.github.io/agent-hub/skills/approved/{skill-name}.json
 
-// 使用 GitHub 作为后端
-const client = new AgentHubClient({
-  registryUrl: 'https://earyantle.github.io/agent-hub-skills'
-});
-
-const skills = await client.listSkills();
-```
+例如：https://earyantle.github.io/agent-hub/skills/approved/demo-skill.json
 
 ## 目录结构
 
