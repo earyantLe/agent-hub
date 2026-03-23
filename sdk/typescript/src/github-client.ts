@@ -160,7 +160,7 @@ export class StaticSkillsClient {
     try {
       const response = await fetch(`${this.baseUrl}/${this.skillsDir}/index.json`);
       if (!response.ok) return [];
-      const data = await response.json();
+      const data = await response.json() as { skills?: GitHubSkill[] };
       return data.skills || [];
     } catch {
       return [];
