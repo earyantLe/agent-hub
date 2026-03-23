@@ -111,11 +111,17 @@ export async function skillsRoutes(server: FastifyInstance) {
     schema: {
       tags: ['skills'],
       summary: '获取技能详情',
-      description: '根据名称获取单个技能的完整信息',
+      description: '根据名称获取单个技能的完整信息，默认返回最新版，可通过 ?version= 指定版本',
       params: {
         type: 'object',
         properties: {
           name: { type: 'string', description: '技能名称' }
+        }
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          version: { type: 'string', description: '指定版本号，不传则返回最新版' }
         }
       },
       response: {
@@ -128,9 +134,10 @@ export async function skillsRoutes(server: FastifyInstance) {
         }
       }
     }
-  }, async (request: FastifyRequest<{ Params: SkillParams }>, reply: FastifyReply) => {
+  }, async (request: FastifyRequest<{ Params: SkillParams; Querystring: { version?: string } }>, reply: FastifyReply) => {
     const { name } = request.params;
-    const skill = await skillRepo.findByName(name);
+    const { version } = request.query;
+    const skill = await skillRepo.findByName(name, version);
 
     if (!skill) {
       return reply.status(404).send({ error: 'Skill not found' });
@@ -144,7 +151,7 @@ export async function skillsRoutes(server: FastifyInstance) {
     schema: {
       tags: ['skills'],
       summary: '提交新技能',
-      description: '提交新的技能描述符进行审核',
+      description: '提交新的技能描述符进行审核，支持版本管理（同名技能可提交不同版本）',
       body: {
         type: 'object',
         properties: {
@@ -158,7 +165,9 @@ export async function skillsRoutes(server: FastifyInstance) {
           properties: {
             id: { type: 'number' },
             name: { type: 'string' },
+            version: { type: 'string' },
             status: { type: 'string' },
+            isLatest: { type: 'boolean' },
             message: { type: 'string' }
           }
         },
@@ -188,27 +197,31 @@ export async function skillsRoutes(server: FastifyInstance) {
       });
     }
 
-    const existing = await skillRepo.findByName(descriptor.name);
-    if (existing) {
-      return reply.status(409).send({ error: 'Skill with this name already exists' });
+    try {
+      const skill = await skillRepo.create({
+        name: descriptor.name,
+        version: descriptor.version,
+        description: descriptor.description,
+        author: descriptor.author?.name || null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        rawDescriptor: descriptor as any,
+        status: 'pending'
+      });
+
+      reply.status(201).send({
+        id: skill.id,
+        name: skill.name,
+        version: skill.version,
+        status: skill.status,
+        isLatest: skill.isLatest,
+        message: 'Skill submitted for review'
+      });
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('already exists')) {
+        return reply.status(409).send({ error: error.message });
+      }
+      throw error;
     }
-
-    const skill = await skillRepo.create({
-      name: descriptor.name,
-      version: descriptor.version,
-      description: descriptor.description,
-      author: descriptor.author?.name || null,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      rawDescriptor: descriptor as any,
-      status: 'pending'
-    });
-
-    reply.status(201).send({
-      id: skill.id,
-      name: skill.name,
-      status: skill.status,
-      message: 'Skill submitted for review'
-    });
   });
 
   server.put('/skills/:id', {
@@ -391,5 +404,116 @@ export async function skillsRoutes(server: FastifyInstance) {
     }
 
     return reply.status(200).send({ updatedCount });
+  });
+
+  // 版本管理端点
+  server.get('/skills/:name/versions', {
+    schema: {
+      tags: ['skills'],
+      summary: '获取技能的所有版本',
+      description: '返回指定技能的所有已审核版本列表',
+      params: {
+        type: 'object',
+        properties: {
+          name: { type: 'string', description: '技能名称' }
+        }
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            versions: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'number' },
+                  version: { type: 'string' },
+                  description: { type: 'string' },
+                  isLatest: { type: 'boolean' },
+                  downloadCount: { type: 'number' },
+                  createdAt: { type: 'string' }
+                }
+              }
+            }
+          }
+        },
+        404: {
+          type: 'object',
+          properties: {
+            error: { type: 'string' }
+          }
+        }
+      }
+    }
+  }, async (request: FastifyRequest<{ Params: SkillParams }>, reply: FastifyReply) => {
+    const { name } = request.params;
+    const versions = await skillRepo.findVersions(name);
+
+    if (versions.length === 0) {
+      return reply.status(404).send({ error: 'Skill not found' });
+    }
+
+    return {
+      versions: versions.map(v => ({
+        id: v.id,
+        version: v.version,
+        description: v.description,
+        isLatest: v.isLatest,
+        downloadCount: v.downloadCount,
+        createdAt: v.createdAt.toISOString()
+      }))
+    };
+  });
+
+  server.post('/skills/:name/versions/:version/set-latest', {
+    schema: {
+      tags: ['skills'],
+      summary: '设置最新版本的技能',
+      description: '将指定版本设置为最新版',
+      params: {
+        type: 'object',
+        properties: {
+          name: { type: 'string', description: '技能名称' },
+          version: { type: 'string', description: '版本号' }
+        }
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            id: { type: 'number' },
+            name: { type: 'string' },
+            version: { type: 'string' },
+            isLatest: { type: 'boolean' }
+          }
+        },
+        404: {
+          type: 'object',
+          properties: {
+            error: { type: 'string' }
+          }
+        }
+      }
+    }
+  }, async (request: FastifyRequest<{ Params: SkillParams & { version: string } }>, reply: FastifyReply) => {
+    const { name, version } = request.params;
+    const skill = await skillRepo.findByName(name, version);
+
+    if (!skill) {
+      return reply.status(404).send({ error: 'Skill version not found' });
+    }
+
+    const updated = await skillRepo.setLatestVersion(skill.id);
+    if (!updated) {
+      return reply.status(500).send({ error: 'Failed to set latest version' });
+    }
+
+    return {
+      id: updated.id,
+      name: updated.name,
+      version: updated.version,
+      isLatest: updated.isLatest
+    };
   });
 }

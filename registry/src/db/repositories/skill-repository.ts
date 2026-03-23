@@ -10,6 +10,7 @@ export interface SkillRow {
   author: string | null;
   rawDescriptor: JsonValue;
   status: 'pending' | 'approved' | 'rejected';
+  isLatest: boolean;
   downloadCount: number;
   createdAt: Date;
   updatedAt: Date;
@@ -23,17 +24,45 @@ export class SkillRepository {
       .selectFrom('skills')
       .selectAll()
       .where('status', '=', 'approved')
+      .where('isLatest', '=', true)
       .orderBy('downloadCount', 'desc')
       .limit(limit)
       .offset(offset)
       .execute() as Promise<SkillRow[]>;
   }
 
-  async findByName(name: string): Promise<SkillRow | null> {
+  async findByName(name: string, version?: string): Promise<SkillRow | null> {
+    let query = this.db
+      .selectFrom('skills')
+      .selectAll()
+      .where('name', '=', name);
+
+    if (version) {
+      query = query.where('version', '=', version);
+    } else {
+      query = query.where('isLatest', '=', true);
+    }
+
+    const result = await query.executeTakeFirst();
+    return result as SkillRow | null;
+  }
+
+  async findVersions(name: string): Promise<SkillRow[]> {
+    return this.db
+      .selectFrom('skills')
+      .selectAll()
+      .where('name', '=', name)
+      .where('status', '=', 'approved')
+      .orderBy('createdAt', 'desc')
+      .execute() as Promise<SkillRow[]>;
+  }
+
+  async findLatestVersion(name: string): Promise<SkillRow | null> {
     const result = await this.db
       .selectFrom('skills')
       .selectAll()
       .where('name', '=', name)
+      .where('isLatest', '=', true)
       .executeTakeFirst();
     return result as SkillRow | null;
   }
@@ -59,11 +88,49 @@ export class SkillRepository {
     rawDescriptor: JsonValue;
     status: 'pending' | 'approved' | 'rejected';
   }): Promise<SkillRow> {
+    // 检查是否存在同名同版本的技能
+    const existing = await this.findByName(skill.name, skill.version);
+    if (existing) {
+      throw new Error(`Skill '${skill.name}' version '${skill.version}' already exists`);
+    }
+
+    // 如果是该技能的第一个版本，设置为 latest
+    const latestVersion = await this.findLatestVersion(skill.name);
+    const isLatest = !latestVersion;
+
     return this.db
       .insertInto('skills')
-      .values({ ...skill, downloadCount: 0 })
+      .values({ ...skill, downloadCount: 0, isLatest })
       .returningAll()
       .executeTakeFirstOrThrow() as Promise<SkillRow>;
+  }
+
+  async setLatestVersion(id: number): Promise<SkillRow | null> {
+    // 获取当前 skill 的 name
+    const skill = await this.findById(id);
+    if (!skill) return null;
+
+    // 使用事务更新版本
+    return this.db
+      .transaction()
+      .execute(async (trx) => {
+        // 取消当前 latest 版本
+        await trx
+          .updateTable('skills')
+          .set({ isLatest: false, updatedAt: new Date() })
+          .where('name', '=', skill.name)
+          .where('isLatest', '=', true)
+          .execute();
+
+        // 设置新版本为 latest
+        const result = await trx
+          .updateTable('skills')
+          .set({ isLatest: true, updatedAt: new Date() })
+          .where('id', '=', id)
+          .returningAll()
+          .executeTakeFirst();
+        return result as SkillRow | null;
+      });
   }
 
   async update(id: number, updates: Partial<SkillRow>): Promise<SkillRow | null> {

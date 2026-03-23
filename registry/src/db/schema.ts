@@ -17,6 +17,7 @@ export interface SkillTable {
   author: string | null;
   rawDescriptor: JsonValue;
   status: 'pending' | 'approved' | 'rejected';
+  isLatest: boolean;
   downloadCount: number;
   createdAt: Generated<Date>;
   updatedAt: Generated<Date>;
@@ -34,15 +35,28 @@ export async function migrate(database: Kysely<Database>) {
     .createTable('skills')
     .ifNotExists()
     .addColumn('id', 'serial', col => col.primaryKey())
-    .addColumn('name', 'varchar(255)', col => col.unique().notNull())
+    .addColumn('name', 'varchar(255)', col => col.notNull())
     .addColumn('version', 'varchar(64)', col => col.notNull())
     .addColumn('description', 'text', col => col.notNull())
     .addColumn('author', 'varchar(255)')
     .addColumn('rawDescriptor', 'jsonb', col => col.notNull())
     .addColumn('status', 'varchar(32)', col => col.notNull().defaultTo('pending'))
+    .addColumn('isLatest', 'boolean', col => col.notNull().defaultTo(false))
     .addColumn('downloadCount', 'integer', col => col.notNull().defaultTo(0))
     .addColumn('createdAt', 'timestamptz', col => col.defaultTo(sql`now()`).notNull())
     .addColumn('updatedAt', 'timestamptz', col => col.defaultTo(sql`now()`).notNull())
+    .execute();
+
+  await database.schema
+    .createIndex('idx_skills_name_version')
+    .on('skills')
+    .column('name')
+    .execute();
+
+  await database.schema
+    .createIndex('idx_skills_latest')
+    .on('skills')
+    .column('isLatest')
     .execute();
 
   await database.schema
