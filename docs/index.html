@@ -223,6 +223,82 @@
       border-radius: 6px;
     }
 
+    /* Top Rankings */
+    .top-rankings {
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border-radius: 16px;
+      padding: 30px;
+      border: 1px solid #333;
+      margin-bottom: 40px;
+    }
+    .top-rankings h3 {
+      font-size: 1.4rem;
+      color: #e94560;
+      margin-bottom: 20px;
+    }
+    .ranking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+    .ranking-item:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: #e94560;
+    }
+    .ranking-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .ranking-rank {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .ranking-rank.gold {
+      background: linear-gradient(135deg, #ffd700, #ffaa00);
+      color: #000;
+    }
+    .ranking-rank.silver {
+      background: linear-gradient(135deg, #c0c0c0, #a0a0a0);
+      color: #000;
+    }
+    .ranking-rank.bronze {
+      background: linear-gradient(135deg, #cd7f32, #b87333);
+      color: #fff;
+    }
+    .ranking-rank.normal {
+      background: #333;
+      color: #fff;
+    }
+    .ranking-name {
+      font-weight: 600;
+      color: #fff;
+    }
+    .ranking-downloads {
+      color: #e94560;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     /* How It Works */
     .how-it-works {
       display: grid;
@@ -566,6 +642,15 @@
     </div>
 
     <h2 class="section-title">热门技能</h2>
+
+    <!-- 热门排行 Top 5 -->
+    <div class="top-rankings" id="topRankings">
+      <h3>🔥 本周热门排行</h3>
+      <div class="ranking-list" id="rankingList"></div>
+    </div>
+
+    <!-- 全部技能 -->
+    <h3 style="margin: 40px 0 20px; font-size: 1.3rem; color: #fff;">全部技能</h3>
     <div class="skills-grid" id="skillsGrid">
       <div class="loading">
         <div class="loading-spinner"></div>
@@ -814,7 +899,33 @@
         allSkills = sampleSkills;
       }
       updateStats();
+      renderRankings(allSkills);
       renderSkills(allSkills);
+    }
+
+    function renderRankings(skills) {
+      // 按下载数排序，取前 5 名
+      const top5 = [...skills].sort((a, b) => (b.downloads || 0) - (a.downloads || 0)).slice(0, 5);
+      const list = document.getElementById('rankingList');
+
+      if (top5.length === 0) {
+        list.innerHTML = '<p style="color: #666; text-align: center;">暂无数据</p>';
+        return;
+      }
+
+      list.innerHTML = top5.map((skill, index) => {
+        const rankClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : 'normal';
+        const rankLabel = index + 1;
+        return `
+          <div class="ranking-item" onclick="showSkillDetail('${skill.name}')">
+            <div class="ranking-left">
+              <span class="ranking-rank ${rankClass}">${rankLabel}</span>
+              <span class="ranking-name">${skill.name}</span>
+            </div>
+            <span class="ranking-downloads">⬇ ${(skill.downloads || 0).toLocaleString()}</span>
+          </div>
+        `;
+      }).join('');
     }
 
     function updateStats() {
