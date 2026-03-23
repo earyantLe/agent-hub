@@ -8,6 +8,7 @@ import type { LoggerOptions } from 'pino';
 import { createDatabase } from './db/database.js';
 import { migrate } from './db/schema.js';
 import { skillsRoutes } from './routes/skills.js';
+import { transformerRoutes } from '@agent-hub/transformer';
 import type { Kysely } from 'kysely';
 import type { Database } from './db/schema.js';
 
@@ -160,6 +161,7 @@ export async function createServer() {
 
   // 注册路由
   await server.register(skillsRoutes, { prefix: '/api' });
+  await server.register(transformerRoutes, { prefix: '/api' });
 
   server.get('/health', async () => ({ status: 'ok', timestamp: new Date().toISOString() }));
 

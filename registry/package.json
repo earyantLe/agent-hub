@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@agent-hub/protocol": "workspace:*",
+    "@agent-hub/transformer": "workspace:*",
     "fastify": "^4.24.0",
     "@fastify/cors": "^9.0.0",
     "@fastify/swagger": "^8.0.0",

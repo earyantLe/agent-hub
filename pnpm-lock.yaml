@@ -57,6 +57,9 @@ importers:
       '@agent-hub/protocol':
         specifier: workspace:*
         version: link:../protocol
+      '@agent-hub/transformer':
+        specifier: workspace:*
+        version: link:../transformer
       '@fastify/cors':
         specifier: ^9.0.0
         version: 9.0.1
