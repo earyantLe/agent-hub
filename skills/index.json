@@ -7,7 +7,7 @@
       "author": { "name": "Agent Hub Team" },
       "capabilities": [
         { "name": "hello", "description": "打招呼" },
-        { "name": "getTime", "description": "获取当前时间" }
+        { "name": "get_time", "description": "获取当前时间" }
       ],
       "auth": { "type": "none" },
       "metadata": { "tags": ["示例", "demo"] },

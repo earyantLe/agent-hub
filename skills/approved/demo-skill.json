@@ -22,7 +22,7 @@
       }
     },
     {
-      "name": "getTime",
+      "name": "get_time",
       "description": "获取当前时间",
       "inputSchema": {
         "type": "object",
